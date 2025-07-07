@@ -8,7 +8,7 @@ import { socketAuthMiddleware } from "./middleware/socketAuth";
 const port = process.env.PORT || 3000;
 const server = http.createServer(app);
 const io = new Server(server, { cors: { origin: "*", methods: ["GET", "POST"]} });
-
+ 
 io.use(socketAuthMiddleware);
 
 registerChatSocket(io);

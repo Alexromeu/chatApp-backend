@@ -1,5 +1,4 @@
 import { Server } from "socket.io";
-
 import { Message } from "../models"
 
 
@@ -17,14 +16,12 @@ export const registerChatSocket = (io: Server) => {
           content: content
         });
 
-        io.to(chatRoomId).emit("chatMessage", {
-          message//testing response
-      })
+        io.to(chatRoomId).emit("chatMessage",
+          message)
       } catch (err: unknown) {
           const errorMessage = err instanceof Error ? err.message : String(err);
           socket.emit("error", { message: errorMessage });
     }
-
     });
 
     socket.on("disconnect", () => {
@@ -35,10 +32,6 @@ export const registerChatSocket = (io: Server) => {
       socket.join(room.id);
       socket.to(room.id).emit("userJoined", socket.data.userId);
     });
-
-    socket.on("chatMessage", ({ room, content }) => {
-      io.to(room.id).emit("chatMessage", { content, sender: socket.data.userId});
-    })
 
   })
 }
