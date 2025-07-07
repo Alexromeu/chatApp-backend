@@ -2,7 +2,7 @@ import { io } from "socket.io-client";
 
 const socket = io("http://localhost:3000", {
   auth: {
-    token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc1MTg0NzIyMiwiZXhwIjoxNzUxODc2MDIyfQ.jHQw9DuaMMcCeeYbW-5kpI7cJitoHfBPGV7YLuDmyQA"
+    token: ""
   }
 });
 
