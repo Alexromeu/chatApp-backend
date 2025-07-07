@@ -1,15 +1,30 @@
 import { Server } from "socket.io";
-import { socketAuthMiddleware } from "../middleware/socketAuth";
+
+import { Message } from "../models"
 
 
 export const registerChatSocket = (io: Server) => {
-  io.use(socketAuthMiddleware);
 
   io.on("connection", socket => {
     console.log("User connected:", socket.data.userId);
 
-    socket.on("message", data => {
-      socket.emit("message", data); // broadcast to all clients
+    socket.on("chatMessage", async ({ chatRoomId, userId, content }) => {
+      
+      try {
+        const message = await Message.create({
+          chatRoomId: chatRoomId,
+          userId: userId,
+          content: content
+        });
+
+        io.to(chatRoomId).emit("chatMessage", {
+          message//testing response
+      })
+      } catch (err: unknown) {
+          const errorMessage = err instanceof Error ? err.message : String(err);
+          socket.emit("error", { message: errorMessage });
+    }
+
     });
 
     socket.on("disconnect", () => {

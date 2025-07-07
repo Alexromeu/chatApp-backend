@@ -35,10 +35,6 @@ export const Message = sequelize.define("Message", {
     allowNull: false,
   },
 
-  username: {
-    type: DataTypes.STRING,
-    allowNull: false
-  }
 });
 
 

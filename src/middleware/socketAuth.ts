@@ -10,8 +10,10 @@ export const socketAuthMiddleware = (socket: Socket, next: (err?: Error) => void
 
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET!);
-    socket.data.userId = payload.userId;
+    console.log(payload, typeof payload)
+   // socket.data.userId = payload.userId;
     next();
+
   } catch (error) {
     next(new Error('Authentication failed'));
   }
