@@ -1,10 +1,9 @@
-import { Server } from "socket.io";
+import { Server, Socket } from "socket.io";
 import { Message } from "../models"
 
 
-export const registerChatSocket = (io: Server) => {
+export const registerChatSocket = (io: Server, socket: Socket) => {
 
-  io.on("connection", socket => {
     console.log("User connected:", socket.data.userId);
 
     socket.on("chatMessage", async ({ chatRoomId, userId, content }) => {
@@ -32,6 +31,4 @@ export const registerChatSocket = (io: Server) => {
       socket.join(room.id);
       socket.to(room.id).emit("userJoined", socket.data.userId);
     });
-
-  })
 }

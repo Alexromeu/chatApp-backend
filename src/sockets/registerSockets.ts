@@ -7,7 +7,7 @@ import { registerPresenceSocket } from "./registerPresenceSocket"
 
 export const registerAllSockets = (io: Server) => {
   io.on('connection', (socket: Socket) => {
-    registerChatSocket(io);
+    registerChatSocket(io, socket);
     registerRoomSocket(io, socket);
     registerPresenceSocket(io, socket);
   });
