@@ -5,23 +5,13 @@ import { User } from './user'
 
 export const Message = sequelize.define("Message", {
   id: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true
+   type: DataTypes.UUID,
+   defaultValue: DataTypes.UUIDV4,
+   primaryKey: true
   },
 
-  chatRoomId: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-
-    references: {
-      model: ChatRoom,
-      key: 'id'
-    }
-  },
-
-  userId: {
-   type:DataTypes.INTEGER,
+  senderId: {
+   type:DataTypes.UUID,
    allowNull: false,
    
    references: {
@@ -30,10 +20,25 @@ export const Message = sequelize.define("Message", {
    }
   },
 
+  roomId: {
+    type: DataTypes.UUID,
+    allowNull: false,
+
+    references: {
+      model: ChatRoom,
+      key: 'id'
+    }
+  },
+  
   content: {
     type: DataTypes.STRING,
     allowNull: false,
   },
+
+  timestamp: {
+    type: DataTypes.BIGINT,
+    allowNull: true,
+  }
 
 });
 

@@ -3,20 +3,22 @@ import { Message } from "../models"
 
 
 export const registerChatSocket = (io: Server, socket: Socket) => {
-
-    console.log("User connected:", socket.data.userId);
-
-    socket.on("chatMessage", async ({ chatRoomId, userId, content }) => {
-      
+  
+    socket.on("chatMessage", async ({ senderId, roomId, content, timestamp }) => {
+     console.log(senderId, roomId, content, typeof timestamp)
       try {
         const message = await Message.create({
-          chatRoomId: chatRoomId,
-          userId: userId,
-          content: content
+          senderId,
+          roomId,
+          content,
+          timestamp
         });
 
-        io.to(chatRoomId).emit("chatMessage",
-          message)
+        console.log('created', message) 
+
+        io.to(roomId).emit("chatMessage",message)
+        socket.emit("chatMessage", message)
+
       } catch (err: unknown) {
           const errorMessage = err instanceof Error ? err.message : String(err);
           socket.emit("error", { message: errorMessage });
@@ -24,11 +26,7 @@ export const registerChatSocket = (io: Server, socket: Socket) => {
     });
 
     socket.on("disconnect", () => {
-      console.log("User disconnected:", socket.data.userId);
+      console.log("User disconnected:", socket.id);
     });
 
-    socket.on("joinRoom", (room) => {
-      socket.join(room.id);
-      socket.to(room.id).emit("userJoined", socket.data.userId);
-    });
 }
