@@ -8,11 +8,16 @@ import express = require("express");
 import cors = require("cors");
 import dotenv = require("dotenv");
 
+const ip = `${process.env.LOCAL_ADDRESS}:5173`
+
 dotenv.config();
 export const app = express();
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: `${ip}`,
+    credentials: true
+}));
 app.use(registerRoutes);
 app.use(messageRoutes);
 app.use(signinRoutes);

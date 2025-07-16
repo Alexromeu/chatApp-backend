@@ -9,6 +9,11 @@ export const authenticate = (req: Request, res: Response, next: NextFunction ):v
     res.status(401).json({ error: 'No token provided' });
     return;
   };
-    verifyToken(token); 
-    next();
+    try {
+      verifyToken(token);
+      next();
+    } catch (err) {
+      console.error("auth error: ", err),
+      res.status(401).json({ error: " invalid or expired token "})
+    }
 };

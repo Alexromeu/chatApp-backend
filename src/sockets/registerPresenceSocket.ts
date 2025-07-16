@@ -9,7 +9,13 @@ export const registerPresenceSocket = (io: Server, socket: Socket) => {
 
     console.log(`🟢 ${senderId} connected`);
 
-    io.emit('onlineUsers', Array.from(onlineUsers.values()));
+    const roomId = Array.from(socket.rooms).find((id) => id !== socket.id); 
+    const usersInRoom = Array.from(io.sockets.adapter.rooms.get(roomId!) || [])
+      .map(socketId => onlineUsers.get(socketId))
+      .filter(Boolean);
+
+  
+    io.to(roomId!).emit('onlineUsers', { roomId, users: usersInRoom });
     socket.emit("userOnline", senderId)
   });
 
@@ -23,7 +29,6 @@ export const registerPresenceSocket = (io: Server, socket: Socket) => {
   });
 
   socket.on('disconnect', () => {
-    const userId = onlineUsers.get(socket.id);
     onlineUsers.delete(socket.id);
     io.emit('onlineUsers', Array.from(onlineUsers.values()));
   });
