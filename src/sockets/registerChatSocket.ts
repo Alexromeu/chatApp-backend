@@ -1,29 +1,27 @@
-import { Server } from "socket.io";
-import { socketAuthMiddleware } from "../middleware/socketAuth";
+import { Server, Socket } from "socket.io";
+import { Message } from "../models"
 
 
-export const registerChatSocket = (io: Server) => {
-  io.use(socketAuthMiddleware);
+export const registerChatSocket = (io: Server, socket: Socket) => {
+  
+    socket.on("chatMessage", async ({ senderId, roomId, content, timestamp }) => {
+      try {
+        const message = await Message.create({
+          senderId,
+          roomId,
+          content,
+          timestamp
+        });
 
-  io.on("connection", socket => {
-    console.log("User connected:", socket.data.userId);
-
-    socket.on("message", data => {
-      socket.emit("message", data); // broadcast to all clients
+        io.to(roomId).emit("chatMessage",message)
+      } catch (err: unknown) {
+          const errorMessage = err instanceof Error ? err.message : String(err);
+          socket.emit("error", { message: errorMessage });
+    }
     });
 
     socket.on("disconnect", () => {
-      console.log("User disconnected:", socket.data.userId);
+      console.log("User disconnected:", socket.id);
     });
 
-    socket.on("joinRoom", (room) => {
-      socket.join(room.id);
-      socket.to(room.id).emit("userJoined", socket.data.userId);
-    });
-
-    socket.on("chatMessage", ({ room, content }) => {
-      io.to(room.id).emit("chatMessage", { content, sender: socket.data.userId});
-    })
-
-  })
 }

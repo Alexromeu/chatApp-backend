@@ -5,9 +5,9 @@ import { User } from "./user"
 export const ChatRoom = sequelize.define("ChatRoom", {
 
   id: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true
+   type: DataTypes.UUID,
+   defaultValue: DataTypes.UUIDV4,
+   primaryKey: true
   },
 
   name: {
@@ -17,7 +17,7 @@ export const ChatRoom = sequelize.define("ChatRoom", {
   },
 
   creator: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.UUID,
     allowNull: false,
     references: {
       model: User,

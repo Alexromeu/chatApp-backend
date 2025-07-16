@@ -3,13 +3,14 @@ import { User } from "./user";
 import { Message } from "./message";
 import { ChatRoom } from "./chatRoom";
 
-User.hasMany(Message, { foreignKey: 'userId' });
-Message.belongsTo(User, { foreignKey: 'userId', targetKey: 'id' });
+User.hasMany(Message, { foreignKey: 'senderId' });
+Message.belongsTo(User, { foreignKey: 'senderId', targetKey: 'id' });
 
-Message.belongsTo(ChatRoom, { foreignKey: 'chatRoomId', targetKey: 'id' });
-ChatRoom.hasMany(Message, { foreignKey: 'chatRoomId' });
+Message.belongsTo(ChatRoom, { foreignKey: 'roomId', targetKey: 'id' });
+ChatRoom.hasMany(Message, { foreignKey: 'roomId' });
 
 User.hasMany(ChatRoom, { foreignKey: 'creator' })
 ChatRoom.belongsTo(User, { foreignKey: 'creator', targetKey: 'id'})
 
-export { sequelize, User, Message };
+export { sequelize, User, Message, ChatRoom };
+

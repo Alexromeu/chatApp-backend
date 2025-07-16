@@ -1,8 +1,9 @@
 import { Router } from "express";
-import { createMessage, getMessages } from "../controllers/messageController";
+import { getMessages } from "../controllers/messageController";
+import { authenticate } from "../middleware/authenticate";
+
 
 const router = Router();
-router.post("/messages", createMessage);
 
-router.get("/messages", getMessages);
+router.get("/messages", authenticate, getMessages);
 export default router;

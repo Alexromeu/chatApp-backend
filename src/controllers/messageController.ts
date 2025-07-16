@@ -1,19 +1,22 @@
 import { Request, Response } from "express";
 import { Message } from "../models/message";
 
-export const createMessage = async (req: Request, res: Response) => {
-  try {
-    const message = await Message.create(req.body);
-    res.status(201).json(message);
-  } catch (err) {
-    res.status(500).json({ error: "Message creation failed" });
-  }
-};
+export const getMessages = async (req: Request, res: Response) => {
+  const { roomId, userId } = req.query;
 
-export const getMessages = async (_: Request, res: Response) => {
+  const where: any = {};
+
+  if (roomId) where.roomId = roomId;
+  if (userId) where.userId = userId;
+
   try {
-    const messages = await Message.findAll({ include: ["User"] });
-    res.json(messages);
+    const messages = await Message.findAll({ 
+      where,
+      include: ["User"],
+      order: [["createdAt", "ASC"]],
+    });
+      res.json(messages);
+
   } catch {
     res.status(500).json({ error: "Failed to fetch messages" });
   }

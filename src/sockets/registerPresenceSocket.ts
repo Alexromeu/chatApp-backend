@@ -4,26 +4,33 @@ const onlineUsers = new Map<string, string>();
 
 export const registerPresenceSocket = (io: Server, socket: Socket) => {
   
-  socket.on('userOnline', (userId: string) => {
-    onlineUsers.set(socket.id, userId);
-    console.log(`🟢 ${userId} connected`);
+  socket.on('userOnline', (senderId: string) => {
+    onlineUsers.set(socket.id, senderId);
 
-    io.emit('onlineUsers', Array.from(onlineUsers.values()));
+    console.log(`🟢 ${senderId} connected`);
+
+    const roomId = Array.from(socket.rooms).find((id) => id !== socket.id); 
+    const usersInRoom = Array.from(io.sockets.adapter.rooms.get(roomId!) || [])
+      .map(socketId => onlineUsers.get(socketId))
+      .filter(Boolean);
+
+  
+    io.to(roomId!).emit('onlineUsers', { roomId, users: usersInRoom });
+    socket.emit("userOnline", senderId)
   });
 
-  socket.on('typing', ({ roomId, userId }) => {
-    socket.to(roomId.toString()).emit('userTyping', userId);
+  socket.on('typing', ({ roomId, senderId }) => {
+    io.emit('typing', { roomId, senderId });
+    socket.emit('typing', { roomId, senderId })
   });
 
-  socket.on('stopTyping', ({ roomId, userId }) => {
-    socket.to(roomId.toString()).emit('userStoppedTyping', userId);
+  socket.on('stopTyping', ({ roomId, senderId }) => {
+    socket.emit('stopTyping', { roomId, senderId });
   });
 
   socket.on('disconnect', () => {
-    const userId = onlineUsers.get(socket.id);
     onlineUsers.delete(socket.id);
-    console.log(`🔴 ${userId} disconnected`);
-
     io.emit('onlineUsers', Array.from(onlineUsers.values()));
   });
 };
+
