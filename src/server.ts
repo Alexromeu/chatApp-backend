@@ -17,7 +17,7 @@ const localAdress = getLocalIP()
 io.use(socketAuthMiddleware);
 registerAllSockets(io)
 
-sequelize.sync({ alter: true }).then(() => {
+sequelize.sync({ alter: true , force: true}).then(() => {
   server.listen(port, localAdress, () => {
     console.log(`Server running on port ${port} IP: ${localAdress}`);
   });
