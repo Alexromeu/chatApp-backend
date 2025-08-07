@@ -4,6 +4,7 @@ import signinRoutes from "./routes/registerRoutes"
 import loginRoutes from "./routes/loginRoutes"
 import registerRoutes from "./routes/registerRoutes"
 import chatRoomRoutes from "./routes/chatRoomsRoutes";
+import getUsernameRoutes from "./routes/getUsernameRoutes";
 import express = require("express");
 import cors = require("cors");
 import dotenv = require("dotenv");
@@ -18,6 +19,8 @@ app.use(cors({
     origin: `${ip}`,
     credentials: true
 }));
+
+app.use(getUsernameRoutes);
 app.use(registerRoutes);
 app.use(messageRoutes);
 app.use(signinRoutes);

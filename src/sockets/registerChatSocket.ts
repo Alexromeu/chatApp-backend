@@ -4,16 +4,17 @@ import { Message } from "../models"
 
 export const registerChatSocket = (io: Server, socket: Socket) => {
   
-    socket.on("chatMessage", async ({ senderId, roomId, content, timestamp }) => {
+    socket.on("chatMessage", async ({ senderId, roomId, content, timestamp, sendername }) => {
       try {
         const message = await Message.create({
           senderId,
           roomId,
           content,
-          timestamp
+          timestamp,
+          sendername
         });
 
-        io.to(roomId).emit("chatMessage",message)
+        io.to(roomId).emit("chatMessage", message)
       } catch (err: unknown) {
           const errorMessage = err instanceof Error ? err.message : String(err);
           socket.emit("error", { message: errorMessage });

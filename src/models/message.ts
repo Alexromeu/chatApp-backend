@@ -38,7 +38,13 @@ export const Message = sequelize.define("Message", {
   timestamp: {
     type: DataTypes.BIGINT,
     allowNull: true,
+  },
+  
+  sendername: {
+    type:DataTypes.STRING,
+    allowNull: false,
   }
+
 
 });
 
