@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { User } from "../models/user"; // Make sure you have a User model
+import { User } from "../models/user"; 
 
 export const getUsernameById = async (req: Request, res: Response) => {
   const userId = req.params.id as string;
