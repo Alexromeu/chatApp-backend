@@ -18,7 +18,7 @@ export const filterChatroomByName = async (req: Request, res: Response) => {
         },
       },
     });
-   console.log(rooms)
+  
     res.json(rooms);
   } catch (err) {
     console.error("Error fetching rooms:", err);
