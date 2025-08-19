@@ -9,14 +9,14 @@ import express = require("express");
 import cors = require("cors");
 import dotenv = require("dotenv");
 
-const ip = `${process.env.LOCAL_ADDRESS}:5173`
+const ip = `${process.env.CORS_ORIGIN}` || "http://localhost:5173";
 
 dotenv.config();
 export const app = express();
 
 app.use(express.json());
 app.use(cors({
-    origin: `${ip}`,
+    origin: ip,
     credentials: true
 }));
 
