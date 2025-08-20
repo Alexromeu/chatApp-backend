@@ -25,10 +25,10 @@ export const getMessages = async (req: Request, res: Response) => {
       order: [["createdAt", "ASC"]],
 
     });
-      console.log("****", messages)
+
       res.json(messages);
       
-  } catch {
-    res.status(500).json({ error: "Failed to fetch messages" });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch messages", err});
   }
 };
