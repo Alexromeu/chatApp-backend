@@ -3,7 +3,7 @@ import { Message } from "../models/message";
 
 export const getMessages = async (req: Request, res: Response) => {
   const { roomId, userId } = req.query;
-
+  console.log("Backend custom CONSOLE: *******", roomId, userId)
   const where: any = {};
 
   if (roomId && typeof roomId === "string" && isUuid(roomId)) {
