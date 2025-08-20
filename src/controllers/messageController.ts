@@ -13,7 +13,7 @@ export const getMessages = async (req: Request, res: Response) => {
   }
 
   if (userId && typeof userId === "string" && isUuid(userId)) {
-    where.userId = userId;
+    where.senderId = userId;
   }
 
   try {
