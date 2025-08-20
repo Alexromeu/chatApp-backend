@@ -23,8 +23,9 @@ export const getMessages = async (req: Request, res: Response) => {
       include: ["User"],
       order: [["createdAt", "ASC"]],
     });
-      res.json(messages);
       console.log("****", messages)
+      res.json(messages);
+      
   } catch {
     res.status(500).json({ error: "Failed to fetch messages" });
   }
