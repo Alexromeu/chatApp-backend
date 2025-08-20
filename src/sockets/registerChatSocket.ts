@@ -6,6 +6,7 @@ export const registerChatSocket = (io: Server, socket: Socket) => {
   
     socket.on("chatMessage", async ({ senderId, roomId, content, timestamp, sendername }) => {
       try {
+        console.log("creating new message in database", senderId, roomId, content, timestamp, sendername)
         const message = await Message.create({
           senderId,
           roomId,
@@ -13,7 +14,7 @@ export const registerChatSocket = (io: Server, socket: Socket) => {
           timestamp,
           sendername
         });
-console.log("creating new message in database", message)
+
         io.to(roomId).emit("chatMessage", message)
       } catch (err: unknown) {
           const errorMessage = err instanceof Error ? err.message : String(err);
