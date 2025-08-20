@@ -13,7 +13,7 @@ export const registerChatSocket = (io: Server, socket: Socket) => {
           timestamp,
           sendername
         });
-console.log(message)
+console.log("creating new message in database", message)
         io.to(roomId).emit("chatMessage", message)
       } catch (err: unknown) {
           const errorMessage = err instanceof Error ? err.message : String(err);
