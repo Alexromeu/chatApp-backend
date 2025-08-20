@@ -6,8 +6,6 @@ import { User } from "../models";
 export const getMessages = async (req: Request, res: Response) => {
   const { roomId, userId } = req.query;
 
-  console.log(roomId, userId)
-
   const where: any = {};
 
   if (roomId && typeof roomId === "string" && isUuid(roomId)) {
