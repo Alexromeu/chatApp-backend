@@ -4,7 +4,9 @@ import { validate as isUuid } from "uuid";
 
 export const getMessages = async (req: Request, res: Response) => {
   const { roomId, userId } = req.query;
-  console.log("Backend custom CONSOLE: *******", roomId, userId)
+
+  
+
   const where: any = {};
 
   if (roomId && typeof roomId === "string" && isUuid(roomId)) {
@@ -22,7 +24,7 @@ export const getMessages = async (req: Request, res: Response) => {
       order: [["createdAt", "ASC"]],
     });
       res.json(messages);
-
+      console.log("****", messages)
   } catch {
     res.status(500).json({ error: "Failed to fetch messages" });
   }
