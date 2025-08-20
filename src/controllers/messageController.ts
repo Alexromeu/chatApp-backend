@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { Message } from "../models/message";
+import { validate as isUuid } from "uuid";
 
 export const getMessages = async (req: Request, res: Response) => {
   const { roomId, userId } = req.query;
