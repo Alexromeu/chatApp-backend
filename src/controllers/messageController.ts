@@ -6,8 +6,13 @@ export const getMessages = async (req: Request, res: Response) => {
 
   const where: any = {};
 
-  if (roomId) where.roomId = roomId;
-  if (userId) where.userId = userId;
+  if (roomId && typeof roomId === "string" && isUuid(roomId)) {
+    where.roomId = roomId;
+  }
+
+  if (userId && typeof userId === "string" && isUuid(userId)) {
+    where.userId = userId;
+  }
 
   try {
     const messages = await Message.findAll({ 
