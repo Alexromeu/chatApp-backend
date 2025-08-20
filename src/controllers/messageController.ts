@@ -1,11 +1,12 @@
 import { Request, Response } from "express";
 import { Message } from "../models/message";
 import { validate as isUuid } from "uuid";
+import { User } from "../models";
 
 export const getMessages = async (req: Request, res: Response) => {
   const { roomId, userId } = req.query;
 
-  
+  console.log(roomId, userId)
 
   const where: any = {};
 
@@ -20,8 +21,9 @@ export const getMessages = async (req: Request, res: Response) => {
   try {
     const messages = await Message.findAll({ 
       where,
-      include: ["User"],
+      include: [{ model: User }],
       order: [["createdAt", "ASC"]],
+
     });
       console.log("****", messages)
       res.json(messages);
