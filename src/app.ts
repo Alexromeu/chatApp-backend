@@ -8,7 +8,8 @@ import getUsernameRoutes from "./routes/getUsernameRoutes";
 import express = require("express");
 import cors = require("cors");
 import dotenv = require("dotenv");
-import path from "path";
+const path = require("path");
+
 
 const ip = `${process.env.CORS_ORIGIN}` || "http://localhost:5173";
 
