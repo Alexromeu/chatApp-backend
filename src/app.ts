@@ -8,6 +8,7 @@ import getUsernameRoutes from "./routes/getUsernameRoutes";
 import express = require("express");
 import cors = require("cors");
 import dotenv = require("dotenv");
+import path from "path";
 
 const ip = `${process.env.CORS_ORIGIN}` || "http://localhost:5173";
 
@@ -24,6 +25,13 @@ app.use(cors({
   origin: process.env.CORS_ORIGIN,
   credentials: true
 }));
+
+
+app.use(express.static(path.join(__dirname, "build")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
 
 
 app.use(getUsernameRoutes);
