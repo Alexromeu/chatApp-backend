@@ -34,7 +34,7 @@ app.use("/api", chatRoomRoutes);
 app.use("/api", errorHandler);
 
 
-app.get("/*splat", (req, res) => {
+app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "dist", "index.html"));
 });
 
