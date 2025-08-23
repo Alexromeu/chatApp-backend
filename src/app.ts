@@ -34,8 +34,7 @@ app.use("/api", chatRoomRoutes);
 app.use("/api", errorHandler);
 
 
-app.get("/*splat", (req, res) => {
-   app.get("/*splat", (req, res) => {
+ app.get("/*splat", (req, res) => {
   const indexFile = path.join(__dirname, "dist", "index.html");
   res.sendFile(indexFile, (err) => {
     if (err) {
