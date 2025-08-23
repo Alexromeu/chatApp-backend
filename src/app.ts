@@ -23,6 +23,7 @@ app.use(cors({
     credentials: true
 }));
 
+app.use(express.static(path.join(__dirname, "dist")));
 
 app.use("/api", getUsernameRoutes);
 app.use("/api", registerRoutes);
@@ -32,7 +33,7 @@ app.use("/api", loginRoutes);
 app.use("/api", chatRoomRoutes);
 app.use("/api", errorHandler);
 
-app.use(express.static(path.join(__dirname, "dist")));
+
 app.get("/*splat", (req, res) => {
     res.sendFile(path.join(__dirname, "dist", "index.html"));
 });
