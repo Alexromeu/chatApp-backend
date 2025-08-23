@@ -34,6 +34,7 @@ app.use(express.static(path.join(__dirname, "dist")));
 
  app.get("/", (_, res) => {
   const indexFile = path.join(__dirname, "dist", "index.html");
+  console.log("done")
   res.sendFile(indexFile, (err) => {
     if (err) {
       res.status(500).send(err);
