@@ -24,11 +24,16 @@ app.use(cors({
 }));
 
 
-app.use(getUsernameRoutes);
-app.use(registerRoutes);
-app.use(messageRoutes);
-app.use(signinRoutes);
-app.use(loginRoutes);
-app.use(chatRoomRoutes);
-app.use(errorHandler);
+app.use("/api", getUsernameRoutes);
+app.use("/api", registerRoutes);
+app.use("/api", messageRoutes);
+app.use("/api", signinRoutes);
+app.use("/api", loginRoutes);
+app.use("/api", chatRoomRoutes);
+app.use("/api", errorHandler);
+
+app.use(express.static(path.join(__dirname, "build")));
+app.get("/*splat", (req, res) => {
+    res.sendFile(path.join(__dirname, "build", "index.html"));
+});
 
