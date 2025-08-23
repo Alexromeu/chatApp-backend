@@ -31,7 +31,7 @@ app.use("/api", messageRoutes);
 app.use("/api", signinRoutes);
 app.use("/api", loginRoutes);
 app.use("/api", chatRoomRoutes);
-app.use("/api", errorHandler);
+
 
 
  app.get("/*splat", (req, res) => {
@@ -43,3 +43,4 @@ app.use("/api", errorHandler);
   });
 });
 
+app.use(errorHandler);
