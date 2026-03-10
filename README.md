@@ -35,5 +35,15 @@ This service handles authentication, REST endpoints, WebSocket communication, an
 
 ---
 
-## Project Structure
+
+## Setup
+
+Install dependencies:
+
+```sh
+npm install
+npx sequelize db:migrate
+npm run dev
+
+
 
