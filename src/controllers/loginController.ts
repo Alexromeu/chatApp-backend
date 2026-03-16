@@ -3,7 +3,7 @@ import { User } from '../models/user';
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret'; // Replace in production
+const JWT_SECRET = process.env.JWT_SECRET; 
 
 export const login = async (req: Request, res: Response): Promise<void> => {
   const { username, password } = req.body;
@@ -32,6 +32,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     });
     
     res.json({ message: 'Login successful', token });
+
   } catch (err) {
     res.status(500).json({ error: 'Login failed' });
   }
