@@ -22,8 +22,8 @@ const server = http.createServer(app);
 
 const allowedOrigins = [
   process.env.CORS_ORIGIN!,       
-  "http://localhost:5173/api",       
-  "http://127.0.0.1:5173/api"        
+  "http://localhost:5173",       
+  "http://127.0.0.1:5173"        
 ];
 
 
