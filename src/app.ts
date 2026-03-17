@@ -19,15 +19,15 @@ const port = process.env.PORT;
 export const app = express();
 
 const allowedOrigins = [
-  process.env.CORS_ORIGIN!,       // production
-  "http://localhost:5173",       // local dev
-  "http://127.0.0.1:5173"        // some browsers use this
+  process.env.CORS_ORIGIN!,       
+  "http://localhost:5173",       
+  "http://127.0.0.1:5173"        
 ];
 
 
 app.use(express.json());
 app.use(cors({
-    origin: '*',
+    origin: allowedOrigins,
     credentials: true
 }));
 
