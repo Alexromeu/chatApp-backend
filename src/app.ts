@@ -15,14 +15,19 @@ import dotenv = require("dotenv");
 dotenv.config();
 
 const localAdress = getLocalIP()
-const ip = `${process.env.CORS_ORIGIN}`;
 const port = process.env.PORT;
 export const app = express();
+
+const allowedOrigins = [
+  process.env.CORS_ORIGIN!,       // production
+  "http://localhost:5173",       // local dev
+  "http://127.0.0.1:5173"        // some browsers use this
+];
 
 
 app.use(express.json());
 app.use(cors({
-    origin: [ip, "http://localhost:5173"],
+    origin: allowedOrigins,
     credentials: true
 }));
 
