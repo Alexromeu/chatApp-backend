@@ -4,7 +4,6 @@ import { errorHandler } from "./middleware/errorHandler";
 import messageRoutes from "./routes/messageRoutes";
 import signinRoutes from "./routes/registerRoutes"
 import loginRoutes from "./routes/loginRoutes"
-import registerRoutes from "./routes/registerRoutes"
 import chatRoomRoutes from "./routes/chatRoomsRoutes";
 import getUsernameRoutes from "./routes/getUsernameRoutes";
 import { registerAllSockets } from "./sockets/registerSockets";
@@ -43,7 +42,6 @@ app.use(cors({
 
 
 app.use(getUsernameRoutes);
-app.use(registerRoutes);
 app.use(messageRoutes);
 app.use(signinRoutes);
 app.use(loginRoutes);
