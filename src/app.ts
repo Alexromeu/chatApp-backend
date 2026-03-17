@@ -31,7 +31,7 @@ app.use(cors({
     credentials: true
 }));
 
-app.use(registerAllSockets);
+
 app.use(getUsernameRoutes);
 app.use(registerRoutes);
 app.use(messageRoutes);
@@ -39,7 +39,7 @@ app.use(signinRoutes);
 app.use(loginRoutes);
 app.use(chatRoomRoutes);
 app.use(errorHandler);
-
+app.use(registerAllSockets);
 
 sequelize.sync({ alter: false }).then(() => {
   app.listen(port, () => {
