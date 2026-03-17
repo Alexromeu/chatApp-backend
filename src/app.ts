@@ -41,7 +41,7 @@ app.use(chatRoomRoutes);
 app.use(errorHandler);
 
 
-sequelize.sync({ alter: true }).then(() => {
+sequelize.sync({ alter: false }).then(() => {
   app.listen(port, () => {
     console.log(`Server running on port ${port} `);
   });
