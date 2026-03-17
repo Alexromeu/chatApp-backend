@@ -41,11 +41,11 @@ app.use(cors({
 }));
 
 
-app.use(getUsernameRoutes);
-app.use(messageRoutes);
-app.use(signinRoutes);
-app.use(loginRoutes);
-app.use(chatRoomRoutes);
+app.use("/api", getUsernameRoutes);
+app.use("/api", messageRoutes);
+app.use("/api", signinRoutes);
+app.use("/api", loginRoutes);
+app.use("/api", chatRoomRoutes);
 app.use(errorHandler);
 registerAllSockets(io);
 
