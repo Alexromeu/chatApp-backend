@@ -19,3 +19,8 @@ export const sequelize = new Sequelize(
     logging: true
   }
 );
+
+//to show in console
+//1-psql <address of db>
+//2- \dt -> show schema
+// access with SQL
