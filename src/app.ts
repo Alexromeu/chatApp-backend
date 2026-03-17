@@ -52,7 +52,7 @@ app.use(errorHandler);
 registerAllSockets(io);
 
 sequelize.sync({ alter: false }).then(() => {
-  app.listen(port, () => {
+  server.listen(port, () => {
     console.log(`Server running on port ${port} `);
   });
 });
