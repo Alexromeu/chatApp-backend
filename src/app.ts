@@ -1,3 +1,5 @@
+import http from "http";
+import { Server } from "socket.io";
 import { errorHandler } from "./middleware/errorHandler";
 import messageRoutes from "./routes/messageRoutes";
 import signinRoutes from "./routes/registerRoutes"
@@ -17,6 +19,7 @@ dotenv.config();
 const localAdress = getLocalIP()
 const port = process.env.PORT;
 export const app = express();
+const server = http.createServer(app);
 
 const allowedOrigins = [
   process.env.CORS_ORIGIN!,       
@@ -24,6 +27,13 @@ const allowedOrigins = [
   "http://127.0.0.1:5173"        
 ];
 
+
+const io = new Server(server, {
+  cors: {
+    origin: allowedOrigins,
+    credentials: true
+  }
+});
 
 app.use(express.json());
 app.use(cors({
@@ -39,7 +49,7 @@ app.use(signinRoutes);
 app.use(loginRoutes);
 app.use(chatRoomRoutes);
 app.use(errorHandler);
-app.use(registerAllSockets);
+registerAllSockets(io);
 
 sequelize.sync({ alter: false }).then(() => {
   app.listen(port, () => {
