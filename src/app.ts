@@ -21,11 +21,7 @@ export const app = express();
 const server = http.createServer(app);
 
 const allowedOrigins = [
-  process.env.CORS_ORIGIN!,
-  "http://www.alexromeu.net",
-  "http://alexromeu.net",
-  "https://www.alexromeu.net",
-  "https://alexromeu.net",        
+  process.env.CORS_ORIGIN!,  
   "http://localhost:5173",       
   "http://127.0.0.1:5173"        
 ];
@@ -45,11 +41,11 @@ app.use(cors({
 }));
 
 
-app.use(getUsernameRoutes);
-app.use(messageRoutes);
-app.use(signinRoutes);
-app.use(loginRoutes);
-app.use(chatRoomRoutes);
+app.use("/api", getUsernameRoutes);
+app.use("/api", messageRoutes);
+app.use("/api", signinRoutes);
+app.use("/api", loginRoutes);
+app.use("/api", chatRoomRoutes);
 app.use(errorHandler);
 registerAllSockets(io);
 
