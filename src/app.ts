@@ -21,7 +21,11 @@ export const app = express();
 const server = http.createServer(app);
 
 const allowedOrigins = [
-  process.env.CORS_ORIGIN!,       
+  process.env.CORS_ORIGIN!,
+  "http://www.alexromeu.net",
+  "http://alexromeu.net",
+  "https://www.alexromeu.net",
+  "https://alexromeu.net",        
   "http://localhost:5173",       
   "http://127.0.0.1:5173"        
 ];
