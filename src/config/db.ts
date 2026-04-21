@@ -17,12 +17,12 @@ export const sequelize = new Sequelize(
     port: Number(db_port) || 5432,
     dialect: "postgres",
     logging: true,
-    dialectOptions: {
-      ssl: {
-        require: true,
-        rejectUnauthorized: false
-      }
-    }
+    // dialectOptions: {
+    //   ssl: {
+    //     require: true,
+    //     rejectUnauthorized: false
+    //   }
+    // }
   }
 );
 
