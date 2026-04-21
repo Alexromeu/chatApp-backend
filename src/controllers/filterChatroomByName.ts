@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
-import { ChatRoom } from "../models/chatRoom";
-import { Op } from "sequelize";
+import { filterChatRoomByName } from "../utils/queries";
 
 export const filterChatroomByName = async (req: Request, res: Response) => {
   const { name } = req.query;
@@ -11,14 +10,7 @@ export const filterChatroomByName = async (req: Request, res: Response) => {
   }
 
   try {
-    const rooms = await ChatRoom.findAll({
-      where: {
-        name: {
-          [Op.iLike]: `%${name.trim()}%`,
-        },
-      },
-    });
-  
+    const rooms = await filterChatRoomByName(name.trim());
     res.json(rooms);
   } catch (err) {
     console.error("Error fetching rooms:", err);

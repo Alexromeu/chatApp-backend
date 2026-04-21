@@ -1,5 +1,5 @@
 import { Server, Socket } from "socket.io";
-import { Message } from "../models"
+import { createMessage } from "../utils/queries";
 
 
 export const registerChatSocket = (io: Server, socket: Socket) => {
@@ -8,13 +8,7 @@ export const registerChatSocket = (io: Server, socket: Socket) => {
       try {
         console.log("creating new message in database", senderId, roomId, content, timestamp, sendername)
 
-        const message = await Message.create({
-          senderId,
-          roomId,
-          content,
-          timestamp,
-          sendername
-        });
+        const message = await createMessage(senderId, roomId, content, sendername, timestamp);
         
 
         io.to(roomId).emit("chatMessage", message)

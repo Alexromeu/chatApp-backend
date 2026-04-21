@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
-import { User } from '../models/user';
-import { createUser } from './userController';
+import { createUser, getUserByUsername } from '../utils/queries';
 
 const jwt = require('jsonwebtoken');
 import * as dotenv from "dotenv";
@@ -10,14 +9,13 @@ export const register = async (req: Request, res: Response): Promise<void> => {
   const { username, password } = req.body;
 
   try {
-
-    const existingUser = await User.findOne({ where: { username } });
+    const existingUser = await getUserByUsername(username);
     if (existingUser) {
       res.status(409).json({ error: 'Username already in use' });
       return;
     }
 
-    const newUser = await createUser({ username, password });
+    const newUser = await createUser(username, password);
     const token = jwt.sign(
       {userId: newUser.id, username: username},
       process.env.JWT_SECRET!,

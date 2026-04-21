@@ -7,7 +7,7 @@ import loginRoutes from "./routes/loginRoutes"
 import chatRoomRoutes from "./routes/chatRoomsRoutes";
 import getUsernameRoutes from "./routes/getUsernameRoutes";
 import { registerAllSockets } from "./sockets/registerSockets";
-import { sequelize } from "./models";
+import { initializeDatabase } from "./config/db";
 import getLocalIP from "./utils/getIP"
 const path = require("path");
 import express = require("express");
@@ -20,24 +20,22 @@ const port = process.env.PORT;
 export const app = express();
 const server = http.createServer(app);
 
-const allowedOrigins = [
-  process.env.CORS_ORIGIN!,  
-  "http://localhost:5173",       
-  "http://127.0.0.1:5173"        
-];
+const allowedOrigins = 
+  process.env.CORS_ORIGIN
 
+let credentials_needed = process.env.CORS_ORIGIN !== '*';
 
 const io = new Server(server, {
   cors: {
     origin: allowedOrigins,
-    credentials: true
+    credentials: credentials_needed
   }
 });
 
 app.use(express.json());
 app.use(cors({
     origin: allowedOrigins,
-    credentials: true
+    credentials: credentials_needed
 }));
 
 
@@ -49,8 +47,11 @@ app.use("/api", chatRoomRoutes);
 app.use(errorHandler);
 registerAllSockets(io);
 
-sequelize.sync({ alter: false }).then(() => {
+initializeDatabase().then(() => {
   server.listen(port, () => {
-    console.log(`Server running on port ${port} `);
+    console.log(`Server running on at ${port} `);
   });
+}).catch((err) => {
+  console.error('Failed to initialize database:', err);
+  process.exit(1);
 });

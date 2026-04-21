@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { ChatRoom } from '../models/chatRoom';
+import { getChatRoomById } from '../utils/queries';
 
 export const getChatRoomByQuery = async (req: Request, res: Response) => {
   const { roomId } = req.query;
@@ -10,7 +10,7 @@ export const getChatRoomByQuery = async (req: Request, res: Response) => {
   }
 
   try {
-    const room = await ChatRoom.findByPk(roomId);
+    const room = await getChatRoomById(roomId);
 
     if (!room) {
       res.status(404).json({ error: 'Room not found' });

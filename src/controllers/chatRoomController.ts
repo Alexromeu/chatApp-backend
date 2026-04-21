@@ -1,21 +1,18 @@
 import { Request, Response } from 'express';
-import { ChatRoom } from '../models/chatRoom';
-import { User } from "../models/user"
+import { getChatRoomsByCreator, createChatRoom as createChatRoomQuery, getAllChatRooms } from '../utils/queries';
 
 export const getChatRooms = async (req: Request, res: Response): Promise<void> => {
   try {
     const userId = req.query.userId as string;
     
-    const rooms = await ChatRoom.findAll({
-      include: {
-        model: User,
-        where: { id: userId }
-      }
-    });
+    if (!userId) {
+      res.status(400).json({ error: 'userId query parameter is required' });
+      return;
+    }
     
+    const rooms = await getChatRoomsByCreator(userId);
     res.status(200).json(rooms);
   } catch (err) {
-
     console.error('Error fetching chat rooms:', err);
     res.status(500).json({ error: 'Failed to fetch chat rooms' });
   }
@@ -25,12 +22,12 @@ export const createChatRoom = async (req: Request, res: Response): Promise<void>
   const { name, creator } = req.body;
   
   if (!name || !creator) {
-    res.status(400).json({ error: 'Room name is required' });
+    res.status(400).json({ error: 'Room name and creator are required' });
     return;
   } 
 
   try {
-    const newRoom = await ChatRoom.create({ name, creator });
+    const newRoom = await createChatRoomQuery(name, creator);
     res.status(201).json(newRoom);
 
   } catch (err) {
@@ -42,7 +39,7 @@ export const createChatRoom = async (req: Request, res: Response): Promise<void>
 
 export const getAllRooms = async (_: Request, res: Response): Promise<void> => {
   try {
-    const rooms = await ChatRoom.findAll(); 
+    const rooms = await getAllChatRooms(); 
     res.status(200).json(rooms);
   } catch (err) {
     console.error('Error fetching all chat rooms:', err);

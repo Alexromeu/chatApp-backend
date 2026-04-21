@@ -1,0 +1,17 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ChatRoom = exports.Message = exports.User = exports.sequelize = void 0;
+const db_1 = require("../config/db");
+Object.defineProperty(exports, "sequelize", { enumerable: true, get: function () { return db_1.sequelize; } });
+const user_1 = require("./user");
+Object.defineProperty(exports, "User", { enumerable: true, get: function () { return user_1.User; } });
+const message_1 = require("./message");
+Object.defineProperty(exports, "Message", { enumerable: true, get: function () { return message_1.Message; } });
+const chatRoom_1 = require("./chatRoom");
+Object.defineProperty(exports, "ChatRoom", { enumerable: true, get: function () { return chatRoom_1.ChatRoom; } });
+user_1.User.hasMany(message_1.Message, { foreignKey: 'senderId' });
+message_1.Message.belongsTo(user_1.User, { foreignKey: 'senderId', targetKey: 'id' });
+message_1.Message.belongsTo(chatRoom_1.ChatRoom, { foreignKey: 'roomId', targetKey: 'id' });
+chatRoom_1.ChatRoom.hasMany(message_1.Message, { foreignKey: 'roomId' });
+user_1.User.hasMany(chatRoom_1.ChatRoom, { foreignKey: 'creator' });
+chatRoom_1.ChatRoom.belongsTo(user_1.User, { foreignKey: 'creator', targetKey: 'id' });

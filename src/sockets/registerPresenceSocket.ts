@@ -17,16 +17,25 @@ export const registerPresenceSocket = (io: Server, socket: Socket) => {
   });
 
   socket.on('typing', ({ roomId, senderId }) => {
-    io.emit('typing', { roomId, senderId });
+    socket.to(roomId.toString()).emit('typing', { roomId, senderId });
   });
 
   socket.on('stopTyping', ({ roomId, senderId }) => {
-    io.emit('stopTyping', { roomId, senderId });
+    socket.to(roomId.toString()).emit('stopTyping', { roomId, senderId });
   });
 
-  socket.on('disconnect', () => {
+  socket.on('disconnecting', () => {
+    const rooms = Array.from(socket.rooms).filter((id) => id !== socket.id);
     onlineUsers.delete(socket.id);
-    io.emit('onlineUsers', Array.from(onlineUsers.values()));
+
+    for (const roomId of rooms) {
+      const usersInRoom = Array.from(io.sockets.adapter.rooms.get(roomId) || [])
+        .filter((id) => id !== socket.id)
+        .map((socketId) => onlineUsers.get(socketId))
+        .filter(Boolean);
+
+      io.to(roomId).emit('onlineUsers', { roomId, users: usersInRoom });
+    }
   });
 };
 

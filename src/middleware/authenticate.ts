@@ -12,6 +12,7 @@ export const authenticate = (req: Request, res: Response, next: NextFunction ):v
     try {
       verifyToken(token);
       next();
+      
     } catch (err) {
       console.error("auth error: ", err),
       res.status(401).json({ error: " invalid or expired token "})

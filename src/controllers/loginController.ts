@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { User } from '../models/user';
+import { getUserByUsername } from '../utils/queries';
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
@@ -9,7 +9,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
   const { username, password } = req.body;
 
   try {
-    const user = await User.findOne({ where: { username } });
+    const user = await getUserByUsername(username);
     if (!user) {
         res.status(401).json({ error: 'User not found' });
         return;

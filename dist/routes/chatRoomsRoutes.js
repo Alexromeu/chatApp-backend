@@ -1,0 +1,14 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const chatRoomController_1 = require("../controllers/chatRoomController");
+const authenticate_1 = require("../middleware/authenticate");
+const getChatRoomByQuery_1 = require("../controllers/getChatRoomByQuery");
+const filterChatroomByName_1 = require("../controllers/filterChatroomByName");
+const router = (0, express_1.Router)();
+router.get("/chatrooms", authenticate_1.authenticate, chatRoomController_1.getChatRooms);
+router.post("/chatrooms", authenticate_1.authenticate, chatRoomController_1.createChatRoom);
+router.get("/chatrooms/all", authenticate_1.authenticate, chatRoomController_1.getAllRooms);
+router.get("/getRoom", getChatRoomByQuery_1.getChatRoomByQuery);
+router.get("/filterRoom", filterChatroomByName_1.filterChatroomByName);
+exports.default = router;
