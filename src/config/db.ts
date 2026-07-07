@@ -8,6 +8,8 @@ const db_password = process.env.DB_PASSWORD;
 const db_host = process.env.DB_HOST;
 const db_port = process.env.DB_PORT;
 
+console.log(`[DB CONFIG] connecting as user="${db_user}" host="${db_host}" port="${db_port}" db="${db_name}"`);
+
 export const sequelize = new Sequelize(
   db_name!,
   db_user!,
