@@ -49,7 +49,7 @@ app.use("/api", chatRoomRoutes);
 app.use(errorHandler);
 registerAllSockets(io);
 
-sequelize.sync({ alter: true }).then(() => {
+sequelize.sync().then(() => {
   server.listen(port, () => {
     console.log(`Server running on port ${port} `);
   });
