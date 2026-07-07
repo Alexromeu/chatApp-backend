@@ -53,4 +53,6 @@ sequelize.sync({ alter: true }).then(() => {
   server.listen(port, () => {
     console.log(`Server running on port ${port} `);
   });
+}).catch(err => {
+  console.error("Sequelize sync failed:", err);
 });
