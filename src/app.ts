@@ -22,7 +22,7 @@ const server = http.createServer(app);
 
 const allowedOrigins = [
   process.env.CORS_ORIGIN!,
-  "chatapp.alexromeu.net",  
+  "https://chatapp.alexromeu.net",  
   "http://localhost:5173",       
   "http://127.0.0.1:5173"        
 ];
